@@ -24,8 +24,8 @@ class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITabl
     }
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        if NetWorkManager.shared.shouldLoadNextPage([indexPaths]) {
-            NetWorkManager.shared.loadNextPage { products in
+        if NetworkManager.shared.shouldLoadNextPage([indexPaths]) {
+            NetworkManager.shared.loadNextPage { products in
                 self.productsArray = self.productsArray + products
                 DispatchQueue.main.sync {
                     self.myTableView.reloadData()
@@ -47,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         myTableView.rowHeight = UITableViewAutomaticDimension
-        NetWorkManager.shared.loadNextPage { products in
+        NetworkManager.shared.loadNextPage { products in
             self.productsArray = self.productsArray + products
             DispatchQueue.main.async {
                 self.myTableView.reloadData()
@@ -63,3 +63,11 @@ class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITabl
 
 }
 
+extension ViewController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let sendingTableViewCell = sender as! ProductTableViewCell
+        let desinationSegue = segue.destination as! DetailViewController
+        desinationSegue.productForDetail = sendingTableViewCell.productForCell
+    }
+}

@@ -8,9 +8,9 @@
 
 import Foundation
 
-class NetWorkManager {
+class NetworkManager {
     
-    static let shared = NetWorkManager()
+    static let shared = NetworkManager()
     let pageCount = 20
     var nextPageToLoad = 20
     var pagesAlreadyLoaded = [Int]()

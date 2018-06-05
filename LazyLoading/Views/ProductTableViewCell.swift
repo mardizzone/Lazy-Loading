@@ -10,12 +10,17 @@ import UIKit
 
 class ProductTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    var productForCell : Product?
     
     func configure(with product: Product) {
         productNameLabel.text = product.productName
+        self.productForCell = product
         priceLabel.text = product.price
+        productImageView.image = nil
+        productImageView.downloadImage(from: product.productImage, contentMode: UIViewContentMode.scaleAspectFit)
     }
     
     override func awakeFromNib() {
