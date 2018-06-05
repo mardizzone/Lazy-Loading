@@ -14,15 +14,17 @@ class NetworkManager {
     let pageCount = 20
     var nextPageToLoad = 20
     var pagesAlreadyLoaded = [Int]()
+    var pageNumber = 1
     
     var cache = NSCache<AnyObject, AnyObject>()
 
     func loadNextPage(completionHandler: @escaping ([Product]) -> () ) {
-        let url = URL(string: "https://mobile-tha-server.appspot.com/walmartproducts/1/\(pageCount)")
+        let url = URL(string: "https://mobile-tha-server.appspot.com/walmartproducts/\(pageNumber)/\(pageCount)")
         let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
             if let validData = data, let json = ProductResponse.productsFromData(inputData: validData) {
                 self.pagesAlreadyLoaded.append(self.nextPageToLoad)
                 self.nextPageToLoad += self.pageCount
+                self.pageNumber += 1
                 completionHandler(json)
             }
         }

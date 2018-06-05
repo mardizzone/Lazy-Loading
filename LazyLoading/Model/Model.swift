@@ -9,7 +9,6 @@
 import Foundation
 
 struct ProductResponse : Codable {
-    
     let products : [Product]
     
     static func productsFromData(inputData: Data) -> [Product]? {
@@ -24,7 +23,6 @@ struct ProductResponse : Codable {
 }
 
 struct Product : Codable {
-    
     let productId : String
     let productName : String
     let shortDescription : String?

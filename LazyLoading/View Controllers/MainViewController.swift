@@ -8,10 +8,21 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITableViewDataSource, UITableViewDelegate {
+class MainViewController: UIViewController {
     @IBOutlet weak var myTableView: UITableView!
+    
     var productsArray = [Product]()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureTableView()
+        populateTableView()
+    }
+
+}
+
+//MARK: - TableView Methods
+extension MainViewController:  UITableViewDataSourcePrefetching, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productsArray.count
     }
@@ -31,21 +42,30 @@ class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITabl
                 }
             }
         }
-        
-        //if NetWorkManager.shared.shouldLoadNextPage([indexPaths]) {
-//            let newDownloadedData = NetWorkManager.shared.loadNextPage()
-//            numberArray = numberArray + newDownloadedData
-//            myTableView.reloadData()
-//        }
     }
     
     func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
     }
     
+}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+//MARK: - Data Passer
+extension MainViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let sendingTableViewCell = sender as! ProductTableViewCell
+        let desinationSegue = segue.destination as! DetailViewController
+        desinationSegue.productForDetail = sendingTableViewCell.productForCell
+    }
+    
+}
+
+//MARK: - Setup Methods
+extension MainViewController {
+    func configureTableView() {
         myTableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    func populateTableView() {
         NetworkManager.shared.loadNextPage { products in
             self.productsArray = self.productsArray + products
             DispatchQueue.main.async {
@@ -53,20 +73,5 @@ class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITabl
             }
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
-}
-
-extension ViewController {
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let sendingTableViewCell = sender as! ProductTableViewCell
-        let desinationSegue = segue.destination as! DetailViewController
-        desinationSegue.productForDetail = sendingTableViewCell.productForCell
-    }
 }
