@@ -19,12 +19,9 @@ extension UIImageView {
             URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
                 DispatchQueue.main.async {
                     self.contentMode = contentMode
-                    if let data = data {
-                        let downloadedImage = UIImage(data: data)
+                    if let data = data, let downloadedImage = UIImage(data: data) {
                         self.image = downloadedImage
-                        if let unwrappedImage = downloadedImage {
-                            NetworkManager.shared.cache.setObject(unwrappedImage, forKey: link as AnyObject)
-                        }
+                        NetworkManager.shared.cache.setObject(downloadedImage, forKey: link as AnyObject)
                     }
                 }
             }).resume()
