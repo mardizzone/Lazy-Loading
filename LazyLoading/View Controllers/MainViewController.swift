@@ -35,12 +35,7 @@ extension MainViewController:  UITableViewDataSourcePrefetching, UITableViewData
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         if NetworkManager.shared.shouldLoadNextPage([indexPaths]) {
-            NetworkManager.shared.loadNextPage { products in
-                self.productsArray = self.productsArray + products
-                DispatchQueue.main.sync {
-                    self.myTableView.reloadData()
-                }
-            }
+            addLoadedDataToTableView()
         }
     }
     
@@ -59,7 +54,7 @@ extension MainViewController {
     
 }
 
-//MARK: - Setup Methods
+//MARK: - Helper Methods
 extension MainViewController {
     func configureTableView() {
         myTableView.rowHeight = UITableViewAutomaticDimension
@@ -69,6 +64,15 @@ extension MainViewController {
         NetworkManager.shared.loadNextPage { products in
             self.productsArray = self.productsArray + products
             DispatchQueue.main.async {
+                self.myTableView.reloadData()
+            }
+        }
+    }
+    
+    func addLoadedDataToTableView() {
+        NetworkManager.shared.loadNextPage { products in
+            self.productsArray = self.productsArray + products
+            DispatchQueue.main.sync {
                 self.myTableView.reloadData()
             }
         }
