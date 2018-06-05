@@ -10,7 +10,6 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSourcePrefetching, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var myTableView: UITableView!
-    
     var productsArray = [Product]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

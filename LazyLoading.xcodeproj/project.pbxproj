@@ -68,7 +68,6 @@
 				7FD0939420C6EB65000A9358 /* Views */,
 				7FD0939320C6EADF000A9358 /* Extensions */,
 				7FD0939220C6EAB2000A9358 /* Storyboards */,
-				7FD0939120C6EA81000A9358 /* Network */,
 				7FD0938F20C6E8FF000A9358 /* Other Stuff */,
 				7FD0938E20C6E8E1000A9358 /* View Controllers */,
 				7FD0939020C6E924000A9358 /* Network */,
@@ -102,13 +101,6 @@
 			);
 			name = Network;
 			path = "New Group";
-			sourceTree = "<group>";
-		};
-		7FD0939120C6EA81000A9358 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		7FD0939220C6EAB2000A9358 /* Storyboards */ = {

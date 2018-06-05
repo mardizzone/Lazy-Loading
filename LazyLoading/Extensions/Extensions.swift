@@ -13,13 +13,21 @@ extension UIImageView {
     func downloadImage(from link: String, contentMode: UIViewContentMode) {
         let baseString = "https://mobile-tha-server.appspot.com" + link
         guard let url = URL(string: baseString) else { return }
-        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
-            DispatchQueue.main.async {
-                self.contentMode = contentMode
-                if let data = data {
-                    self.image = UIImage(data: data)
+        if let img = NetworkManager.shared.cache.object(forKey: link as AnyObject) {
+            self.image = img as? UIImage
+        } else {
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
+                DispatchQueue.main.async {
+                    self.contentMode = contentMode
+                    if let data = data {
+                        let downloadedImage = UIImage(data: data)
+                        self.image = downloadedImage
+                        if let unwrappedImage = downloadedImage {
+                            NetworkManager.shared.cache.setObject(unwrappedImage, forKey: link as AnyObject)
+                        }
+                    }
                 }
-            }
-        }).resume()
+            }).resume()
+        }
     }
 }
